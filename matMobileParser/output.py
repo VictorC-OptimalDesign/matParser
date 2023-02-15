@@ -33,7 +33,7 @@ class XLSX:
     def __init__(self):
         self.size : int = 0
         self.wb : Workbook = Workbook(self._FILE_NAME + self._EXTENSION)
-        self.logSheets : typing.List[Workbook.worksheet_class]
+        self.logSheets : typing.List[Workbook.worksheet_class] = []
         
         
     def writeData(self, csv : CSV):
