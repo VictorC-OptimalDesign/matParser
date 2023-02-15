@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project-Specific
+*.csv
+*.log
+*.ods
+*.txt
+*.xls
+*.xlsx
+.~lock.*.ods#
+.~lock.*.xls#
+.~lock.*.xlsx#
