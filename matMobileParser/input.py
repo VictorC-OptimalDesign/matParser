@@ -24,6 +24,19 @@ class LogEntry:
     extra : typing.List[str] = field(init=False, default_factory=list)
 
 
+@dataclass(frozen=True)
+class SearchQuery:
+    type : str
+    system : str
+    data : str
+    extra : str
+    
+    
+@dataclass
+class SearchQueries:
+    queries : typing.List[SearchQuery] = field(init=False, default_factory=list)
+
+
 class CSV:
     _EXTENSION : str = '.csv'
     _SEPARATOR : str = ','

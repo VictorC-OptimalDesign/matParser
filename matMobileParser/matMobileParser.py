@@ -5,8 +5,9 @@
 
 import glob
 import os
+import typing
 
-from input import CSV
+from input import CSV, SearchQuery, SearchQueries
 from output import XLSX
 
 
@@ -21,14 +22,26 @@ _VERSION : str = '{0}.{1}.{2}'.format(_VERSION_MAJOR, _VERSION_MINOR, _VERSION_U
 
 # === PRIVATE FUNCTIONS ========================================================
 
+def _createSearchQueries() -> SearchQueries:
+    search : SearchQueries = SearchQueries()
+    search.queries.append(SearchQuery(None, None, 'Display Shot', None))
+    search.queries.append(SearchQuery(None, None, 'Lifetime Bow Odometer', None))
+    search.queries.append(SearchQuery(None, None, 'Fetching', None))
+    search.queries.append(SearchQuery(None, None, 'Shot data transfer completed', None))
+    search.queries.append(SearchQuery(None, None, 'Factory Reset', None))
+    search.queries.append(SearchQuery(None, None, 'Algorithm run result:', None))
+    search.queries.append(SearchQuery(None, None, 'Uploading shot id', None))
+    return search
+
 def _process():
     _FILE_SEARCH_PATTERN : str = './**/*.csv'
     print('{0}()'.format(_process.__name__))
     xlsx : XLSX = XLSX()
+    search : SearchQueries = _createSearchQueries()
     for fileName in glob.glob(_FILE_SEARCH_PATTERN, recursive=True):
         print('processing {0}...'.format(fileName))
         csv : CSV = CSV(fileName)
-        xlsx.writeData(csv)
+        xlsx.writeData(csv, search)
         pass
     xlsx.finalize()
 
