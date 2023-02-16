@@ -16,11 +16,16 @@ class XLSX:
     _EXTENSION : str = '.xlsx'
     _SHEET_NAME_LOG : str = 'log'
     _SHEET_NAME_STATS : str = 'stats'
+    _DATE_NUMBER_FORMAT : str = 'yyyy-mm-dd'
+    _TIME_NUMBER_FORMAT : str = 'hh:mm:ss.000000'
+    _TOP_ALIGN_FORMAT : str = 'top'
     
     
     _HEADERS : typing.Tuple[str] = (
         'line',
+        'date',
         'time',
+        'search',
         'type',
         'system',
         'data',
@@ -32,6 +37,12 @@ class XLSX:
         self.size : int = 0
         self.wb : Workbook = Workbook(self._FILE_NAME + self._EXTENSION)
         self.logSheets : typing.List[Workbook.worksheet_class] = []
+        self.dateFormat = self.wb.add_format({'num_format' : self._DATE_NUMBER_FORMAT})
+        self.timeFormat = self.wb.add_format({'num_format' : self._TIME_NUMBER_FORMAT})
+        self.dataFormat = self.wb.add_format()
+        self.extraFormat = self.wb.add_format()
+        self.dataFormat.set_align(self._TOP_ALIGN_FORMAT)
+        self.extraFormat.set_align(self._TOP_ALIGN_FORMAT)
         
         
     def writeData(self, csv : CSV, search : SearchQueries = None):
@@ -45,26 +56,33 @@ class XLSX:
         
         # Write the data.
         for entry in csv.entries:
-            if (self._searchEntry(entry, search)):
-                ws.write(row, 0, entry.line)
-                ws.write(row, 1, entry.time)
+            matchingQuery : SearchQuery = self._findMatchingSearchQuery(entry, search)
+            if (matchingQuery != None):
+                ws.write(row, self._HEADERS.index('line'), entry.line)
+                ws.write(row, self._HEADERS.index('date'), entry.time, self.dateFormat)
+                ws.write(row, self._HEADERS.index('time'), entry.time, self.timeFormat)
+                ws.write(row, self._HEADERS.index('search'), str(matchingQuery))
                 if (entry.type != None):
-                    ws.write(row, 2, entry.type)
+                    ws.write(row, self._HEADERS.index('type'), entry.type)
                 if (entry.system != None):
-                    ws.write(row, 3, entry.system)
+                    ws.write(row, self._HEADERS.index('system'), entry.system)
                 if (entry.data != None):
-                    ws.write(row, 4, entry.data)
+                    ws.write(row, self._HEADERS.index('data'), entry.data, self.dataFormat)
                 extraLength = len(entry.extra)
                 if (extraLength > 0):
-                    col = 5
+                    col = self._HEADERS.index('extra')
                     for extraEntry in entry.extra:
-                        ws.write(row, col, extraEntry)
+                        ws.write(row, col, extraEntry, self.extraFormat)
                         col += 1
                 row += 1
+                
+        ws.autofit()
+        ws.set_column(self._HEADERS.index('time'), self._HEADERS.index('time'), len(self._TIME_NUMBER_FORMAT))
         self.logSheets.append(ws)
         
         
-    def _searchEntry(self, entry : LogEntry, search : SearchQueries) -> bool:
+    def _findMatchingSearchQuery(self, entry : LogEntry, search : SearchQueries) -> SearchQuery:
+        matchingQuery : SearchQuery = None
         found : bool = True
         if (search != None and len(search.queries) > 0):
             for query in search.queries:
@@ -83,9 +101,10 @@ class XLSX:
                             break
                     found = found and foundExtra
                 if found:
+                    matchingQuery = query
                     break
             pass
-        return found
+        return matchingQuery
     
     
     def finalize(self):

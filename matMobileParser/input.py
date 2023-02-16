@@ -22,14 +22,22 @@ class LogEntry:
     system : str = field(init=False, default=None)
     data : str = field(init=False, default=None)
     extra : typing.List[str] = field(init=False, default_factory=list)
-
-
+    
+    
 @dataclass(frozen=True)
 class SearchQuery:
     type : str
     system : str
     data : str
     extra : str
+    
+    def __str__(self):
+        return '{0},{1},{2},{3},'.format(
+            '' if self.type == None else self.type,
+            '' if self.system == None else self.system,
+            '' if self.data == None else self.data,
+            '' if self.extra == None else self.extra
+            )
     
     
 @dataclass
