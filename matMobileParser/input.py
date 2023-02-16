@@ -10,6 +10,8 @@ import typing
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from xlsxwriter import Workbook
+from xlsxwriter.format import Format
 
 
 # === CLASSES ==================================================================
@@ -30,6 +32,8 @@ class SearchQuery:
     system : str
     data : str
     extra : str
+    color : str
+    
     
     def __str__(self):
         return '{0},{1},{2},{3},'.format(
@@ -73,8 +77,8 @@ class CSV:
             
             for i, line in enumerate(readLines):
                 fields : typing.List[str] = [x.strip() for x in line.split(self._SEPARATOR)]
-                fields = [i for i in fields if i]
-                self._processFields(i, fields)
+                fields = [j for j in fields if j]
+                self._processFields(i + 1, fields)
                 pass
                 
     def _processFields(self, line : int, fields : typing.List[str]):
@@ -94,6 +98,7 @@ class CSV:
                     
     def _makeLogEntry(self, line : int, time : datetime, fields : typing.List[str]) -> LogEntry:
         entry : LogEntry = LogEntry()
+        entry.line = line
         entry.time = time
         
         numberOfFields : int = len(fields)
