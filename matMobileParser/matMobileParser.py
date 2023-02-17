@@ -43,6 +43,9 @@ _COLORS : typing.Tuple[str] = (
     '#D58457', # [19] orange (deep)
 )
 
+_TYPE_INFO : str = 'INFO'
+_SYSTEM_BLE : str = 'BLE'
+
 # === PRIVATE FUNCTIONS ========================================================
 
 def _createSearchQueries() -> SearchQueries:
@@ -54,6 +57,8 @@ def _createSearchQueries() -> SearchQueries:
     search.queries.append(SearchQuery(None, None, 'Factory Reset', None, _COLORS[4]))
     search.queries.append(SearchQuery(None, None, 'Algorithm run result:', None, _COLORS[5]))
     search.queries.append(SearchQuery(None, None, 'Uploading shot id', None, _COLORS[6]))
+    search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Disconnected from', None, _COLORS[7]))
+    search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Connected to', None, _COLORS[8]))
     return search
 
 def _process():

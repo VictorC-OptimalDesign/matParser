@@ -62,7 +62,11 @@ class XLSX:
     
     
     def writeData(self, csv : CSV):
-        ws : Workbook.worksheet_class = self.wb.add_worksheet(csv.name)
+        _MAX_LENGTH_NAME : int = 31
+        name : str = csv.name
+        if (len(name) > _MAX_LENGTH_NAME):
+            name = name[:_MAX_LENGTH_NAME]
+        ws : Workbook.worksheet_class = self.wb.add_worksheet(name)
         
         # Write the header.
         row : int = 0
