@@ -21,18 +21,26 @@ _VERSION : str = '{0}.{1}.{2}'.format(_VERSION_MAJOR, _VERSION_MINOR, _VERSION_U
 
 
 _COLORS : typing.Tuple[str] = (
-    '#FFFFA6', # [0] yellow
-    '#FFE994', # [1] yellow-orange
-    '#FFB66C', # [2] orange
-    '#FFAA95', # [3] coral
-    '#FFA6A6', # [4] pinkish
-    '#EC9BA4', # [5] mauve
-    '#BF819E', # [6] lilac
-    '#B7B3CA', # [7] steel blue
-    '#B4C7DC', # [8] blue
-    '#B3CAC7', # [9] blue-green
-    '#AFD095', # [10] green
-    '#E8F2A1', # [11] limon (lime-lemon)
+    '#99E4A3', # [0] green (pastel)
+    '#F6A09D', # [1] red (pastel)
+    '#CFBCFD', # [2] purple (pastel)
+    '#DABB9D', # [3] brown (pastel)
+    '#F4B1E3', # [4] magenta (pastel)
+    '#CFCFCF', # [5] grey (pastel)
+    '#FEFDA7', # [6] yellow (pastel)
+    '#C1F2EF', # [7] aqua (pastel)
+    '#A7CAF2', # [8] blue (pastel)
+    '#F7B486', # [9] orange (pastel)
+    '#62A76A', # [10] green (deep)
+    '#BB5054', # [11] red (deep)
+    '#8073B1', # [12] purple (deep)
+    '#907861', # [13] brown (deep)
+    '#D38DC2', # [14] magenta (deep)
+    '#8C8C8C', # [15] grey (deep)
+    '#C9B878', # [16] yellow (deep)
+    '#72B5CC', # [17] aqua (deep)
+    '#5373AE', # [18] blue (deep)
+    '#D58457', # [19] orange (deep)
 )
 
 # === PRIVATE FUNCTIONS ========================================================
@@ -40,12 +48,12 @@ _COLORS : typing.Tuple[str] = (
 def _createSearchQueries() -> SearchQueries:
     search : SearchQueries = SearchQueries()
     search.queries.append(SearchQuery(None, None, 'Display Shot', None, _COLORS[0]))
-    search.queries.append(SearchQuery(None, None, 'Lifetime Bow Odometer', None, _COLORS[2]))
-    search.queries.append(SearchQuery(None, None, 'Fetching', None, _COLORS[4]))
-    search.queries.append(SearchQuery(None, None, 'Shot data transfer completed', None, _COLORS[5]))
-    search.queries.append(SearchQuery(None, None, 'Factory Reset', None, _COLORS[6]))
-    search.queries.append(SearchQuery(None, None, 'Algorithm run result:', None, _COLORS[8]))
-    search.queries.append(SearchQuery(None, None, 'Uploading shot id', None, _COLORS[10]))
+    search.queries.append(SearchQuery(None, None, 'Lifetime Bow Odometer', None, _COLORS[1]))
+    search.queries.append(SearchQuery(None, None, 'Fetching', None, _COLORS[2]))
+    search.queries.append(SearchQuery(None, None, 'Shot data transfer completed', None, _COLORS[3]))
+    search.queries.append(SearchQuery(None, None, 'Factory Reset', None, _COLORS[4]))
+    search.queries.append(SearchQuery(None, None, 'Algorithm run result:', None, _COLORS[5]))
+    search.queries.append(SearchQuery(None, None, 'Uploading shot id', None, _COLORS[6]))
     return search
 
 def _process():
