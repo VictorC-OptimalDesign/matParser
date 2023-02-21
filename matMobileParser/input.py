@@ -78,27 +78,26 @@ class CSV:
             for i, line in enumerate(readLines):
                 fields : typing.List[str] = [x.strip() for x in line.split(self._SEPARATOR)]
                 fields = [j for j in fields if j]
-                self._processFields(i + 1, fields)
+                self._processFields(i + 1, line, fields)
                 pass
                 
-    def _processFields(self, line : int, fields : typing.List[str]):
+    def _processFields(self, lineNumber : int, line : str, fields : typing.List[str]):
         _DATETIME_FORMAT : str = '%Y-%m-%d %H:%M:%S.%f'
         numberOfFields : int = len(fields)
         if (numberOfFields > self.Offsets.TIME.value):
             try:
                 timeString : str = fields[0]
                 time : datetime = datetime.strptime(timeString, _DATETIME_FORMAT)
-                self.entries.append(self._makeLogEntry(line, time, fields))
-                pass
+                self.entries.append(self._makeLogEntry(lineNumber, time, line, fields))
             except:
                 numberOfEntries : int = len(self.entries)
                 if (numberOfEntries > 0):
                     self.entries[numberOfEntries - 1].extra.append(self._SEPARATOR.join(fields))
                 pass
                     
-    def _makeLogEntry(self, line : int, time : datetime, fields : typing.List[str]) -> LogEntry:
+    def _makeLogEntry(self, lineNumber : int, time : datetime, line : str, fields : typing.List[str]) -> LogEntry:
         entry : LogEntry = LogEntry()
-        entry.line = line
+        entry.line = lineNumber
         entry.time = time
         
         numberOfFields : int = len(fields)
@@ -107,8 +106,12 @@ class CSV:
         if (numberOfFields > self.Offsets.SYSTEM.value):
             entry.system = fields[self.Offsets.SYSTEM.value]
         if (numberOfFields > self.Offsets.DATA.value):
-            subFields : typing.List[str] = fields[(self.Offsets.DATA.value):(numberOfFields-1)]
-            entry.data = self._SEPARATOR.join(subFields)
+            try:
+                start : int = len(fields[self.Offsets.TIME.value]) + 1 + len(fields[self.Offsets.TYPE.value]) + 1 + len(fields[self.Offsets.SYSTEM.value])
+                offset : int = line.index(self._SEPARATOR, start)
+                entry.data = line[offset + 1:].strip()
+            except:
+                pass
             
         return entry
     

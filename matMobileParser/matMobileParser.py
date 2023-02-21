@@ -15,7 +15,7 @@ from output import XLSX
 
 _VERSION_MAJOR : int = 0
 _VERSION_MINOR : int = 0
-_VERSION_UPDATE : int = 0
+_VERSION_UPDATE : int = 1
 
 _VERSION : str = '{0}.{1}.{2}'.format(_VERSION_MAJOR, _VERSION_MINOR, _VERSION_UPDATE)
 
