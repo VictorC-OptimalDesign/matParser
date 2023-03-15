@@ -15,7 +15,7 @@ from output import XLSX
 
 _VERSION_MAJOR : int = 0
 _VERSION_MINOR : int = 0
-_VERSION_UPDATE : int = 1
+_VERSION_UPDATE : int = 2
 
 _VERSION : str = '{0}.{1}.{2}'.format(_VERSION_MAJOR, _VERSION_MINOR, _VERSION_UPDATE)
 
@@ -44,6 +44,7 @@ _COLORS : typing.Tuple[str] = (
 )
 
 _TYPE_INFO : str = 'INFO'
+_TYPE_FINE : str = 'FINE'
 _SYSTEM_BLE : str = 'BLE'
 
 # === PRIVATE FUNCTIONS ========================================================
@@ -59,6 +60,7 @@ def _createSearchQueries() -> SearchQueries:
     search.queries.append(SearchQuery(None, None, 'Uploading shot id', None, _COLORS[6]))
     search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Disconnected from', None, _COLORS[7]))
     search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Connected to', None, _COLORS[8]))
+    search.queries.append(SearchQuery(_TYPE_FINE, _SYSTEM_BLE, '`Bow Shot Information`', None, _COLORS[9]))
     return search
 
 def _process():
