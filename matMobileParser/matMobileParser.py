@@ -15,7 +15,7 @@ from output import XLSX
 
 _VERSION_MAJOR : int = 0
 _VERSION_MINOR : int = 0
-_VERSION_UPDATE : int = 2
+_VERSION_UPDATE : int = 4
 
 _VERSION : str = '{0}.{1}.{2}'.format(_VERSION_MAJOR, _VERSION_MINOR, _VERSION_UPDATE)
 
@@ -46,13 +46,14 @@ _COLORS : typing.Tuple[str] = (
 _TYPE_INFO : str = 'INFO'
 _TYPE_FINE : str = 'FINE'
 _SYSTEM_BLE : str = 'BLE'
+_SYSTEM_DEVICE : str = 'DEVICE'
 
 # === PRIVATE FUNCTIONS ========================================================
 
 def _createSearchQueries() -> SearchQueries:
     search : SearchQueries = SearchQueries()
     search.queries.append(SearchQuery(None, None, 'Display Shot', None, _COLORS[0]))
-    search.queries.append(SearchQuery(None, None, 'Lifetime Bow Odometer', None, _COLORS[1]))
+    search.queries.append(SearchQuery(_TYPE_FINE, _SYSTEM_BLE, 'Lifetime Bow Odometer', None, _COLORS[1]))
     search.queries.append(SearchQuery(None, None, 'Fetching', None, _COLORS[2]))
     search.queries.append(SearchQuery(None, None, 'Shot data transfer completed', None, _COLORS[3]))
     search.queries.append(SearchQuery(None, None, 'Factory Reset', None, _COLORS[4]))
@@ -61,6 +62,7 @@ def _createSearchQueries() -> SearchQueries:
     search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Disconnected from', None, _COLORS[7]))
     search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_BLE, 'Connected to', None, _COLORS[8]))
     search.queries.append(SearchQuery(_TYPE_FINE, _SYSTEM_BLE, '`Bow Shot Information`', None, _COLORS[9]))
+    search.queries.append(SearchQuery(_TYPE_INFO, _SYSTEM_DEVICE, 'RSSI', None, _COLORS[10]))
     return search
 
 def _process():
